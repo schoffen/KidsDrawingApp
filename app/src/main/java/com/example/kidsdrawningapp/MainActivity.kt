@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             val colorTag = imageButton.tag.toString()
             drawingView?.setColor(colorTag)
 
-            imageButton!!.setImageDrawable(
+            imageButton.setImageDrawable(
                 ContextCompat.getDrawable(this, R.drawable.pallet_pressed)
             )
 
