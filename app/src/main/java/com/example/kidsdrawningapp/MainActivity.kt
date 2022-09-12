@@ -3,15 +3,14 @@ package com.example.kidsdrawningapp
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Gravity
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -26,8 +25,17 @@ class MainActivity : AppCompatActivity() {
     private var mImageButtonCurrentPaint : ImageButton? = null
     private var mImage: ImageButton? = null
 
+    private val openGalleryLauncher : ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result ->
+            if(result.resultCode == RESULT_OK && result.data != null){
+                val imageBackground : ImageView = findViewById(R.id.ivBackground)
 
-    val requestPermission : ActivityResultLauncher<Array<String>> =
+                imageBackground.setImageURI(result.data?.data)
+            }
+        }
+
+    private val requestPermission : ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             permissions ->
             permissions.entries.forEach {
@@ -40,6 +48,10 @@ class MainActivity : AppCompatActivity() {
                         "Permission Granted",
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    val pickIntent = Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    openGalleryLauncher.launch((pickIntent))
                 }else{
                     if(permissionName == Manifest.permission.READ_EXTERNAL_STORAGE){
                         Toast.makeText(
@@ -68,6 +80,16 @@ class MainActivity : AppCompatActivity() {
         val ibBrush : ImageButton = findViewById(R.id.ibBrush)
         ibBrush.setOnClickListener {
             showBrushSizeChooserDialog()
+        }
+
+        val ibUndo : ImageButton = findViewById(R.id.ibUndo)
+        ibUndo.setOnClickListener {
+            drawingView?.onClickUndo()
+        }
+
+        val ibRedo : ImageButton = findViewById(R.id.ibRedo)
+        ibRedo.setOnClickListener {
+            drawingView?.onClickRedo()
         }
 
         mImage = findViewById(R.id.ibImage)

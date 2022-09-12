@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/image"
+            android:backgroundTint="@color/white"
             />
 
         <com.example.kidsdrawningapp.DrawingView
@@ -43,7 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flDrawingViewContainer"
-        >            android:layout_marginBottom=""
+        >
 
         <ImageButton
             android:layout_width="25dp"
@@ -185,6 +185,19 @@
         app:layout_constraintTop_toBottomOf="@id/llPaintColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/ibSave"
+        app:layout_constraintEnd_toEndOf="@id/ibRedo"
+        />
+
+    <ImageButton
+        android:id="@+id/ibRedo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_redo"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/llPaintColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ibUndo"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
